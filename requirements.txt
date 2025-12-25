@@ -10,3 +10,9 @@ scipy
 tensorboard
 tensorboard-data-server
 tensorflow
+flask
+gunicorn
+numpy
+pandas
+scikit-learn
+scikit-fuzzy

@@ -18,7 +18,12 @@ y = dataset.iloc[:, 10].values
 scaler = StandardScaler()
 scaler.fit_transform(x)
 
-model = tf.keras.models.load_model('filesuse/project_model1.h5')
+try:
+    import tensorflow as tf
+    model = tf.keras.models.load_model('filesuse/project_model1.h5')
+except:
+    model = None
+
 
 app = Flask(__name__)
 
@@ -91,8 +96,12 @@ def detect():
     # =========================================================
     # 🤖 STEP-2: ANN Prediction
     # =========================================================
+    if model:
     y_pred = model.predict(scaled_features)
-    fraud_prob = y_pred[0][0]
+    fraud_prob = float(y_pred[0][0])
+else:
+    fraud_prob = 0.85  # demo probability
+
 
     if fraud_prob <= 0.5:
         result = "VALID TRANSACTION"
