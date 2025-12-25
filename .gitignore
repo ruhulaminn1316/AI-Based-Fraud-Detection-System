@@ -1,0 +1,9 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+filesuse/*.h5
+dataset/
+*.csv
+*.zip
+.env
