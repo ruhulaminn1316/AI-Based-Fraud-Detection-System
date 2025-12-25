@@ -9,7 +9,7 @@ from ga_optimizer import genetic_optimize
 from fuzzy_risk import fuzzy_risk_level
 
 # ------------------------------
-# SAFE DATASET LOADING
+# SAFE SCALER (NO CRASH)
 # ------------------------------
 scaler = StandardScaler()
 
@@ -79,7 +79,7 @@ def detect():
 
     x_test = [v1, v2, v3, v4, v5, v6, v7, v8, v9, v10]
 
-    # -------- GA --------
+    # -------- Genetic Algorithm --------
     optimized_features = genetic_optimize(x_test, target_sum=1000)
     scaled_features = scaler.transform([optimized_features])
 
@@ -88,15 +88,12 @@ def detect():
         y_pred = model.predict(scaled_features)
         fraud_prob = float(y_pred[0][0])
     else:
-        fraud_prob = 0.85  # demo probability
+        fraud_prob = 0.85  # DEMO probability for Render
 
     # -------- Decision --------
-    if fraud_prob <= 0.5:
-        result = "VALID TRANSACTION"
-    else:
-        result = "FRAUD TRANSACTION"
+    result = "FRAUD TRANSACTION" if fraud_prob > 0.5 else "VALID TRANSACTION"
 
-    # -------- FUZZY --------
+    # -------- Fuzzy Logic --------
     risk_level = fuzzy_risk_level(fraud_prob)
 
     return render_template(

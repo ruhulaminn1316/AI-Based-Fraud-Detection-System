@@ -4,20 +4,19 @@ def genetic_optimize(features, target_sum):
     population = []
     k = len(features)
 
-    for _ in range(50):
+    for _ in range(30):
         individual = [random.uniform(0.5, 1.5) for _ in range(k)]
         population.append(individual)
 
     def fitness(ind):
-        weighted = sum(ind[i] * features[i] for i in range(k))
-        return abs(target_sum - weighted)
+        return abs(target_sum - sum(ind[i] * features[i] for i in range(k)))
 
-    for _ in range(30):
+    for _ in range(20):
         population.sort(key=fitness)
-        parents = population[:10]
+        parents = population[:5]
 
         children = parents.copy()
-        while len(children) < 50:
+        while len(children) < 30:
             a, b = random.sample(parents, 2)
             point = random.randint(1, k - 1)
             child = a[:point] + b[point:]
@@ -29,5 +28,4 @@ def genetic_optimize(features, target_sum):
         population = children
 
     best = population[0]
-    optimized = [best[i] * features[i] for i in range(k)]
-    return optimized
+    return [best[i] * features[i] for i in range(k)]
